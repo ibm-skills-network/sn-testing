@@ -1,4 +1,4 @@
-describe('empty spec', () => {
+describe('Cloud IDE Kubernetes', () => {
   before(() => {
     cy.launchLTI('cloud-ide-kubernetes')
   })

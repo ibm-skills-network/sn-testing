@@ -1,4 +1,4 @@
-describe('empty spec', () => {
+describe('Author IDE', () => {
   before(() => {
     cy.launchLTI('cloud-ide')
   })
