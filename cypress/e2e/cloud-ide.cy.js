@@ -1,6 +1,6 @@
 describe('empty spec', () => {
   before(() => {
-    cy.launchLTI('cloudide')
+    cy.launchLTI('cloud-ide')
 
     // Get Proxy URL
     cy.get('iframe#tool_iframe', { timeout: 60000 }).then((iframe) => {
