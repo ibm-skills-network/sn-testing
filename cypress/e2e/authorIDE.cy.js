@@ -3,7 +3,7 @@ describe('empty spec', () => {
     cy.launchLTI('cloud-ide')
   })
 
-  it('passes', () => {
+  it('can render instructions and move between pages', () => {
     cy.instructions().toc().click()
     cy.instructions().toc(3).click()
 
@@ -22,11 +22,12 @@ describe('empty spec', () => {
     cy.instructions().nextPage()
     cy.instructions().nextPage()
 
-
     cy.instructions().currentPage().contains('We do recommend that you use the following as an outline for your Cloud-IDE-based lab instructions.')
+  })
 
-    // cy.instructions().toc().click()
-    // cy.instructions().toc(4).click()
-    // cy.instructions().find('button.execute-code-block').click()
+  it.skip('can run a execute code block', () => {
+    cy.instructions().toc().click()
+    cy.instructions().toc(4).click()
+    cy.instructions().find('button.execute-code-block').click()
   })
 })

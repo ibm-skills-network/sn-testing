@@ -36,7 +36,6 @@ describe('empty spec', () => {
 
       cy.theia().terminal('{ctrl}c')
     })
-  
   })
 
   it('can run simple kubernetes', () => {
