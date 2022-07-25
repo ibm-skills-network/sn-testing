@@ -2,7 +2,7 @@ const crypto = require('crypto')
 const OAuth = require('oauth-1.0a')
   
 const oauth = OAuth({
-    consumer: { key: Cypress.env('lti_client_id'), secret: Cypress.env('lti_client_secret') },
+    consumer: { key: Cypress.env('LTI_CLIENT_ID'), secret: Cypress.env('LTI_CLIENT_SECRET') },
     signature_method: 'HMAC-SHA1',
     hash_function(base_string, key) {
         return crypto
@@ -58,21 +58,21 @@ export function loginLTI(fixture) {
         }
 
         const request_data = {
-            url: Cypress.env('lti_url'),
+            url: Cypress.env('LTI_URL'),
             method: 'POST',
             data
         }
 
         const options = {
             method: 'POST',
-            url: Cypress.env('lti_url'),
+            url: Cypress.env('LTI_URL'),
             form: true,
             followRedirect: true,
             body:  oauth.authorize(request_data)
         };
 
         return cy.visit({
-            url: Cypress.env('lti_url'),
+            url: Cypress.env('LTI_URL'),
             method: 'POST',
             body: oauth.authorize(request_data),
             headers: {

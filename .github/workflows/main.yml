@@ -14,6 +14,10 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v4
+        env:
+          CYPRESS_LTI_URL: "https://labs.staging.cognitiveclass.ai/login/lti"
+          CYPRESS_LTI_CLIENT_ID: ${{ secrets.LTI_CLIENT_ID }}
+          CYPRESS_LTI_CLIENT_SECRET: ${{ secrets.LTI_CLIENT_SECRET }}
         with:
           # Specify Browser since container image is compile with Firefox
           browser: chrome
