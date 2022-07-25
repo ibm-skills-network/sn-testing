@@ -5,7 +5,7 @@ on: [push]
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    container: cypress/browsers:node12.18.3-chrome87-ff82
+    container: cypress/browsers:node16.13.2-chrome100-ff98
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -16,4 +16,4 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           # Specify Browser since container image is compile with Firefox
-          browser: firefox
+          browser: chrome
