@@ -49,8 +49,8 @@ export function terminal(subject, command, parseSpecialCharSequences = true) {
     const el = getIframeBody('theia').find('div[dir="ltr"]').last()
 
     if (command) {
-        el.click({force: true})
-        el.type(command, { parseSpecialCharSequences, force: true })
+        el.click()
+        el.type(command, { parseSpecialCharSequences })
     }
     return el.should('be.visible')
 }
