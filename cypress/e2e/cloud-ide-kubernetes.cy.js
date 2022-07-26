@@ -1,3 +1,5 @@
+import {checkTerminalOutput} from '../support/commands/cloudide'
+
 describe('Cloud IDE Kubernetes', () => {
   before(() => {
     cy.launchLTI('cloud-ide-kubernetes')
@@ -19,23 +21,20 @@ describe('Cloud IDE Kubernetes', () => {
 
   
   it('can run simple docker commands', () => {
-    cy.theia().openTerminal()
+    const commands = [
+      'docker ps',
+      'docker run hello-world'
+    ]
+    checkTerminalOutput(commands, {wait: 8000})
+      .should('include', "CONTAINER ID")
+      .and('include', "Hello from Docker!")
+  })
 
-    cy.theia().terminal('{ctrl}c')
-    cy.theia().terminal('docker ps > docker{enter}')
-    cy.theia().terminal('docker run hello-world > hello-world{enter}')
-
-    cy.theia().terminal('ruby -run -ehttpd . -p8000{enter}')
-
-    cy.wait(8000)
-
-    cy.get('@proxyURL').then((proxyURL) => {
-      const appURL = proxyURL.replace('[PORT]', 8000)
-      cy.request(appURL + '/docker').its('body').should('include', "CONTAINER ID")
-      cy.request(appURL + '/hello-world').its('body').should('include', "Hello from Docker!")
-
-      cy.theia().terminal('{ctrl}c')
-    })
+  it('can run docker and have connectivity', () => {
+    const commands = [
+      'docker run  --rm curlimages/curl:7.78.0 -L -v http://curl.haxx.se'
+    ]
+    checkTerminalOutput(commands, {wait: 15000}).should('include', "curl is used in command lines or scripts to transfer data. curl is also used")
   })
 
   it('can run simple kubernetes', () => {
@@ -54,7 +53,7 @@ describe('Cloud IDE Kubernetes', () => {
       cy.request(appURL).its('body').should('include', "Welcome to nginx!")
 
       cy.theia().terminal('{ctrl}c')
-      cy.theia().terminal('kubectl delete deployments nginx-deployment{enter}')
+      cy.theia().terminal('kubectl deconste deployments nginx-deployment{enter}')
     })
   })
 

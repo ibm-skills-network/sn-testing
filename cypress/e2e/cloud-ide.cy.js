@@ -1,3 +1,5 @@
+import {checkTerminalOutput} from '../support/commands/cloudide'
+
 describe('Cloud IDE', () => {
   before(() => {
     cy.launchLTI('cloud-ide')
@@ -9,7 +11,7 @@ describe('Cloud IDE', () => {
       const regexp = /https:\/\/([^\.]+)\.labs\.([^\/]+)\/.+/;
       const matches = src.match(regexp);
 
-      const proxyURL = `https://bs-8000.${matches[1]}.proxy.${matches[2]}/`
+      const proxyURL = `https://bs-[PORT].${matches[1]}.proxy.${matches[2]}/`
 
       cy.wrap(proxyURL)
     }).as('proxyURL')
@@ -17,20 +19,13 @@ describe('Cloud IDE', () => {
 
   
   it('can run simple example', () => {
-    cy.theia().openTerminal()
-
-    cy.theia().terminal('{ctrl}c')
-    cy.theia().terminal('echo "TEST" > abc123{enter}')
-    cy.theia().terminal('ruby -run -ehttpd . -p8000{enter}')
-
-    cy.wait(5000)
-
-    cy.get('@proxyURL').then((proxyURL) => {
-      cy.request(proxyURL + '/abc123').its('body').should('include', "TEST")
-    })
+    let commands = [
+      'echo "TEST"'
+    ]
+    checkTerminalOutput(cy.theia(), commands).should('include', "TEST")
   })
 
-  it('can use the skills network extension', () => {
+  it.skip('can use the skills network extension', () => {
     cy.theia().openSNExtension('other', 'Launch Application')
 
     cy.theia().find("#combo-box").type('8000', { release: false })

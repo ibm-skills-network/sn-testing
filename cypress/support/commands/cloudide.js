@@ -6,6 +6,33 @@ const confirmTheia = (subject) => {
     // }
 }
 
+export function checkTerminalOutput(commands, options = {}) {
+    const subject = getIframeBody('theia')
+
+    openTerminal(subject)
+
+    terminal(subject, '{ctrl}c')
+
+    const filename = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
+
+    for (let command of commands) {
+        terminal(subject, `${command} >> ${filename}{enter}`)
+    }
+
+    terminal(subject, 'ruby -run -ehttpd . -p8000{enter}')
+
+    cy.wait(options.wait || 5000)
+
+    return cy.get('@proxyURL').then((proxyURL) => {
+        const appURL = proxyURL.replace('[PORT]', 8000)
+        return cy.request(`${appURL}/${filename}`).then((resp) => {
+            terminal(subject, '{ctrl}c')
+            terminal(subject, `rm -f ${filename}`)
+            return cy.wrap(resp.body)
+        })
+    })
+}
+
 export function openTerminal(subject) {
     confirmTheia(subject)
 
@@ -15,15 +42,15 @@ export function openTerminal(subject) {
     cy.wait(15000)
 }
 
-
 export function terminal(subject, command, parseSpecialCharSequences = true) {
     confirmTheia(subject)
 
-    const el = cy.wrap(subject.find('div[dir="ltr"]').last())
+    // const el = cy.wrap(getIframeBody('theia').find('div[dir="ltr"]').last())
+    const el = getIframeBody('theia').find('div[dir="ltr"]').last()
 
     if (command) {
-        el.click()
-        el.type(command, { parseSpecialCharSequences })
+        el.click({force: true})
+        el.type(command, { parseSpecialCharSequences, force: true })
     }
     return el.should('be.visible')
 }
