@@ -1,6 +1,6 @@
 name: Cypress Tests using Cypress Docker Image
 
-on: [push]
+on: [workflow_call]
 
 jobs:
   cypress-run:
@@ -21,7 +21,7 @@ jobs:
         with:
           # Specify Browser since container image is compile with Firefox
           browser: chrome
-      
+
       - name: "Upload screenshots and videos to Slack"
         uses: trymbill/cypress-slack-video-upload-action@v1.3.0
         if: failure()
