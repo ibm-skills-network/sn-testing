@@ -1,72 +1,95 @@
-import {getIframeBody} from './common'
+import { getIframeBody } from "./common";
 
 const confirmTheia = (subject) => {
-    // if (subject[0].children[0].id !== 'layout') {
-    //   throw new Error('Not instructions')
-    // }
-}
+  // if (subject[0].children[0].id !== 'layout') {
+  //   throw new Error('Not instructions')
+  // }
+};
 
 export function checkTerminalOutput(commands, options = {}) {
-    const subject = getIframeBody('theia')
+  const subject = getIframeBody("theia");
 
-    openTerminal(subject)
+  openTerminal(subject);
 
-    terminal(subject, '{ctrl}c')
+  terminal(subject, "{ctrl}c");
 
-    const filename = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
+  const filename = Math.random()
+    .toString(36)
+    .replace(/[^a-z]+/g, "")
+    .substr(0, 5);
 
-    for (let command of commands) {
-        terminal(subject, `${command} >> ${filename}{enter}`)
-    }
+  for (let command of commands) {
+    terminal(subject, `${command} >> ${filename}{enter}`);
+  }
 
-    terminal(subject, 'ruby -run -ehttpd . -p8000{enter}')
+  terminal(subject, "ruby -run -ehttpd . -p8000{enter}");
 
-    cy.wait(options.wait || 5000)
+  cy.wait(options.wait || 5000);
 
-    return cy.get('@proxyURL').then((proxyURL) => {
-        const appURL = proxyURL.replace('[PORT]', 8000)
-        return cy.request(`${appURL}/${filename}`).then((resp) => {
-            terminal(subject, '{ctrl}c')
-            terminal(subject, `rm -f ${filename}`)
-            return cy.wrap(resp.body)
-        })
-    })
+  return cy.get("@proxyURL").then((proxyURL) => {
+    const appURL = proxyURL.replace("[PORT]", 8000);
+    return cy.request(`${appURL}/${filename}`).then((resp) => {
+      terminal(subject, "{ctrl}c");
+      terminal(subject, `rm -f ${filename}`);
+      return cy.wrap(resp.body);
+    });
+  });
 }
 
 export function openTerminal(subject) {
-    confirmTheia(subject)
+  confirmTheia(subject);
 
-    getIframeBody('theia').find('div.p-MenuBar-itemLabel').contains('Terminal').click().then(() => {
-        getIframeBody('theia').find('div.p-Menu-itemLabel').contains('New Terminal').trigger('mousemove').click();
+  getIframeBody("theia")
+    .find("div.p-MenuBar-itemLabel")
+    .contains("Terminal")
+    .click()
+    .then(() => {
+      getIframeBody("theia")
+        .find("div.p-Menu-itemLabel")
+        .contains("New Terminal")
+        .trigger("mousemove")
+        .click();
     });
-    cy.wait(15000)
+  cy.wait(15000);
 }
 
 export function terminal(subject, command, parseSpecialCharSequences = true) {
-    confirmTheia(subject)
+  confirmTheia(subject);
 
-    // const el = cy.wrap(getIframeBody('theia').find('div[dir="ltr"]').last())
-    const el = getIframeBody('theia').find('div[dir="ltr"]').last()
+  // const el = cy.wrap(getIframeBody('theia').find('div[dir="ltr"]').last())
+  const el = getIframeBody("theia").find('div[dir="ltr"]').last();
 
-    if (command) {
-        el.click()
-        el.type(command, { parseSpecialCharSequences })
-    }
-    return el.should('be.visible')
+  if (command) {
+    el.click();
+    el.type(command, { parseSpecialCharSequences });
+  }
+  return el.should("be.visible");
 }
 
 export function openSNExtension(subject, category, item) {
-    confirmTheia(subject)
+  confirmTheia(subject);
 
-    getIframeBody('theia').find("ul.p-TabBar-content>li.p-TabBar-tab[title='Skills Network Toolbox'][style~='height:']").click();
+  getIframeBody("theia")
+    .find(
+      "ul.p-TabBar-content>li.p-TabBar-tab[title='Skills Network Toolbox'][style~='height:']",
+    )
+    .click();
 
-    if (category) {
-        getIframeBody('theia').find("#panel1a-header > div.MuiAccordionSummary-content").contains(category).click()
+  if (category) {
+    getIframeBody("theia")
+      .find("#panel1a-header > div.MuiAccordionSummary-content")
+      .contains(category)
+      .click();
 
-        if (item) {
-            getIframeBody('theia').find('div.theia-TreeNode').contains(item).parent().parent().parent().trigger('mousemove').click()
-        }
+    if (item) {
+      getIframeBody("theia")
+        .find("div.theia-TreeNode")
+        .contains(item)
+        .parent()
+        .parent()
+        .parent()
+        .trigger("mousemove")
+        .click();
     }
+  }
 }
-
-

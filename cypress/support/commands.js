@@ -24,34 +24,38 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-
-import {getIframeBody, loginLTI} from './commands/common';
-import {openTerminal, terminal, openSNExtension} from './commands/cloudide';
-import {tableOfContents, page, nextPage, previousPage, currentPage} from './commands/authoride';
+import { getIframeBody, loginLTI } from "./commands/common";
+import { openTerminal, terminal, openSNExtension } from "./commands/cloudide";
+import {
+  tableOfContents,
+  page,
+  nextPage,
+  previousPage,
+  currentPage,
+} from "./commands/authoride";
 
 // IFRAME COMMANDS
-Cypress.Commands.add('instructions', () => {
-    return getIframeBody('instructions')
-})
+Cypress.Commands.add("instructions", () => {
+  return getIframeBody("instructions");
+});
 
-Cypress.Commands.add('theia', () => {
-  return getIframeBody('theia')
-})
+Cypress.Commands.add("theia", () => {
+  return getIframeBody("theia");
+});
 
 // LTI
-Cypress.Commands.add('launchLTI',(fixture) => {
-  return loginLTI(fixture)
-})
+Cypress.Commands.add("launchLTI", (fixture) => {
+  return loginLTI(fixture);
+});
 
 // CLOUD IDE
-Cypress.Commands.add('openTerminal', { prevSubject: true }, openTerminal)
-Cypress.Commands.add('terminal', { prevSubject: true }, terminal)
-Cypress.Commands.add('openSNExtension', { prevSubject: true }, openSNExtension)
-
+Cypress.Commands.add("openTerminal", { prevSubject: true }, openTerminal);
+Cypress.Commands.add("terminal", { prevSubject: true }, terminal);
+Cypress.Commands.add("openSNExtension", { prevSubject: true }, openSNExtension);
 
 // AUTHOR IDE
-Cypress.Commands.add('toc', { prevSubject: true }, tableOfContents)
-Cypress.Commands.add('page', { prevSubject: true }, page)
-Cypress.Commands.add('nextPage', { prevSubject: true }, nextPage)
-Cypress.Commands.add('previousPage', { prevSubject: true }, previousPage)
-Cypress.Commands.add('currentPage', { prevSubject: true }, currentPage)
+Cypress.Commands.add("toc", { prevSubject: true }, tableOfContents);
+Cypress.Commands.add("page", { prevSubject: true }, page);
+Cypress.Commands.add("nextPage", { prevSubject: true }, nextPage);
+Cypress.Commands.add("previousPage", { prevSubject: true }, previousPage);
+Cypress.Commands.add("currentPage", { prevSubject: true }, currentPage);
