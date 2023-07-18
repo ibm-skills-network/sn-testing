@@ -4,6 +4,7 @@ on: [workflow_call]
 
 jobs:
   cypress-run:
+    name: cypress-run
     runs-on: ubuntu-latest
     container: cypress/browsers:node16.13.2-chrome100-ff98
     steps:
