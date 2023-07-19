@@ -1,6 +1,4 @@
 const confirmInstructions = (subject) => {
-  console.log("confirmInstructions subject");
-  subject.debug();
   if (subject[0].children[0].id !== "layout") {
     throw new Error("Not instructions");
   }
@@ -13,7 +11,7 @@ export function tableOfContents(subject, item) {
     return subject.find("button.toc");
   }
   const el = cy.wrap(
-    subject.find("div.table-of-contents > button").eq(item - 1),
+    subject.find("div.table-of-contents > button").eq(item - 1)
   );
   el.scrollIntoView();
   return el;

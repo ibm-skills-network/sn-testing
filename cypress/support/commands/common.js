@@ -24,14 +24,14 @@ export const getIframeDocument = (type, firstBoot = true) => {
 
   if (type === "instructions") {
     return cy
-      .get('iframe[name="author_ide_iframe_name"]', { timeout })
-      .its("0.contentDocument")
-      .should("exist");
+      .get('iframe[name="author_ide_iframe_name"]')
+      .its("0.contentDocument.body")
+      .should("not.be.empty");
   } else if (type === "theia") {
     return cy
       .get("iframe#tool_iframe", { timeout })
-      .its("0.contentDocument")
-      .should("exist");
+      .its("0.contentDocument.body")
+      .should("not.be.empty");
   }
 };
 
@@ -39,9 +39,6 @@ export const getIframeBody = (type) => {
   // get the document
   return (
     getIframeDocument(type)
-      // automatically retries until body is loaded
-      .its("body")
-      .should("not.be.undefined")
       // wraps "body" DOM element to allow
       // chaining more Cypress commands, like ".find(...)"
       .then(cy.wrap)
@@ -68,14 +65,6 @@ export function loginLTI(fixture) {
       url: Cypress.env("LTI_URL"),
       method: "POST",
       data,
-    };
-
-    const options = {
-      method: "POST",
-      url: Cypress.env("LTI_URL"),
-      form: true,
-      followRedirect: true,
-      body: oauth.authorize(request_data),
     };
 
     return cy.visit({
