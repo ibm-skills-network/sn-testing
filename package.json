@@ -9,10 +9,16 @@
   "author": "Bradley Steinfeld",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^10.3.0",
-    "typescript": "^4.7.4"
+    "cypress": "^10",
+    "cypress-iframe": "^1.0.1",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-cypress": "^2.13.3",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^4"
   },
   "dependencies": {
-    "oauth-1.0a": "^2.2.6"
+    "oauth-1.0a": "^2"
   }
 }
