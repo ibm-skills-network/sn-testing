@@ -6,15 +6,15 @@ jobs:
   cypress-run:
     name: cypress-run
     runs-on: ubuntu-latest
-    container: cypress/browsers
+    container: cypress/included
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
-        uses: cypress-io/github-action@v4
+        uses: cypress-io/github-action@v5
         env:
           CYPRESS_LTI_URL: "https://labs.staging.cognitiveclass.ai/login/lti"
           CYPRESS_LTI_CLIENT_ID: ${{ secrets.LTI_CLIENT_ID }}
