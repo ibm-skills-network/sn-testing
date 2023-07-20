@@ -14,12 +14,19 @@ const oauth = OAuth({
 });
 
 export const getIframeBody = (type) => {
+  const timeout = 60000;
   if (type === "instructions") {
+    cy.get('iframe[name="author_ide_iframe_name"]', { timeout })
+      .its("0.contentDocument")
+      .should("exist");
     cy.frameLoaded("iframe[name='author_ide_iframe_name']");
     return cy
       .iframe('iframe[name="author_ide_iframe_name"]')
       .should("not.be.empty");
   } else if (type === "theia") {
+    cy.get("iframe#tool_iframe", { timeout })
+      .its("0.contentDocument")
+      .should("exist");
     cy.frameLoaded("iframe#tool_iframe");
     return cy.iframe("iframe#tool_iframe").should("not.be.empty");
   }
