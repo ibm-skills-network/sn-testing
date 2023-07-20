@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const OAuth = require("oauth-1.0a");
+import "cypress-iframe";
 
 const oauth = OAuth({
   consumer: {
@@ -12,37 +13,16 @@ const oauth = OAuth({
   },
 });
 
-export const getIframeDocument = (type, firstBoot = true) => {
-  // Cypress yields jQuery element, which has the real
-  // DOM element under property "0".
-  // From the real DOM iframe element we can get
-  // the "document" element, it is stored in "contentDocument" property
-  // Cypress "its" command can access deep properties using dot notation
-  // https://on.cypress.io/its
-
-  const timeout = firstBoot ? 60000 : 15000;
-
+export const getIframeBody = (type) => {
   if (type === "instructions") {
+    cy.frameLoaded("iframe[name='author_ide_iframe_name']");
     return cy
-      .get('iframe[name="author_ide_iframe_name"]')
-      .its("0.contentDocument.body")
+      .iframe('iframe[name="author_ide_iframe_name"]')
       .should("not.be.empty");
   } else if (type === "theia") {
-    return cy
-      .get("iframe#tool_iframe", { timeout })
-      .its("0.contentDocument.body")
-      .should("not.be.empty");
+    cy.frameLoaded("iframe#tool_iframe");
+    return cy.iframe("iframe#tool_iframe").should("not.be.empty");
   }
-};
-
-export const getIframeBody = (type) => {
-  // get the document
-  return (
-    getIframeDocument(type)
-      // wraps "body" DOM element to allow
-      // chaining more Cypress commands, like ".find(...)"
-      .then(cy.wrap)
-  );
 };
 
 export function loginLTI(fixture) {

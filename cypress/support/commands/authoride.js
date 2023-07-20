@@ -1,14 +1,6 @@
-const confirmInstructions = (subject) => {
-  if (subject[0].children[0].id !== "layout") {
-    throw new Error("Not instructions");
-  }
-};
-
 export function tableOfContents(subject, item) {
-  confirmInstructions(subject);
-
   if (item === undefined) {
-    return subject.find("button.toc");
+    return subject.find("div.toolbar > button.toc");
   }
   const el = cy.wrap(
     subject.find("div.table-of-contents > button").eq(item - 1)
@@ -18,8 +10,6 @@ export function tableOfContents(subject, item) {
 }
 
 export function page(subject, item) {
-  confirmInstructions(subject);
-
   // if (item === undefined) {
   //   return subject.find('button.toc')
   // }
@@ -29,8 +19,6 @@ export function page(subject, item) {
 }
 
 export function currentPage(subject) {
-  confirmInstructions(subject);
-
   const domElement = subject.find("div.pages > div.page").filter(function () {
     return this.style["display"] !== "none";
   });
@@ -39,8 +27,6 @@ export function currentPage(subject) {
 }
 
 export function nextPage(subject) {
-  confirmInstructions(subject);
-
   const domElement = subject.find("div.pages > div.page").filter(function () {
     return this.style["display"] !== "none";
   });
@@ -52,8 +38,6 @@ export function nextPage(subject) {
 }
 
 export function previousPage(subject) {
-  confirmInstructions(subject);
-
   const domElement = subject.find("div.pages > div.page").filter(function () {
     return this.style["display"] !== "none";
   });

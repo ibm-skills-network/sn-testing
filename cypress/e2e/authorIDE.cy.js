@@ -12,7 +12,7 @@ describe("Author IDE", () => {
       .should("be.visible")
 
       .contains(
-        "Author IDE is a tool for creating and managing your instructions.",
+        "Author IDE is a tool for creating and managing your instructions."
       );
 
     cy.instructions().page(7).should("not.be.visible");
@@ -33,7 +33,7 @@ describe("Author IDE", () => {
     cy.instructions()
       .currentPage()
       .contains(
-        "We do recommend that you use the following as an outline for your Cloud-IDE-based lab instructions.",
+        "We do recommend that you use the following as an outline for your Cloud-IDE-based lab instructions."
       );
   });
 

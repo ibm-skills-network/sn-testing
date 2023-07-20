@@ -1,11 +1,5 @@
 import { getIframeBody } from "./common";
 
-const confirmTheia = (subject) => {
-  // if (subject[0].children[0].id !== 'layout') {
-  //   throw new Error('Not instructions')
-  // }
-};
-
 export function checkTerminalOutput(commands, options = {}) {
   const subject = getIframeBody("theia");
 
@@ -37,8 +31,6 @@ export function checkTerminalOutput(commands, options = {}) {
 }
 
 export function openTerminal(subject) {
-  confirmTheia(subject);
-
   getIframeBody("theia")
     .find("div.p-MenuBar-itemLabel")
     .contains("Terminal")
@@ -54,8 +46,6 @@ export function openTerminal(subject) {
 }
 
 export function terminal(subject, command, parseSpecialCharSequences = true) {
-  confirmTheia(subject);
-
   // const el = cy.wrap(getIframeBody('theia').find('div[dir="ltr"]').last())
   const el = getIframeBody("theia").find('div[dir="ltr"]').last();
 
@@ -67,11 +57,9 @@ export function terminal(subject, command, parseSpecialCharSequences = true) {
 }
 
 export function openSNExtension(subject, category, item) {
-  confirmTheia(subject);
-
   getIframeBody("theia")
     .find(
-      "ul.p-TabBar-content>li.p-TabBar-tab[title='Skills Network Toolbox'][style~='height:']",
+      "ul.p-TabBar-content>li.p-TabBar-tab[title='Skills Network Toolbox'][style~='height:']"
     )
     .click();
 
