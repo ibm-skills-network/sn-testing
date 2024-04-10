@@ -16,7 +16,7 @@
     "eslint-plugin-cypress": "^2.13.3",
     "eslint-plugin-prettier": "^5.0.0",
     "prettier": "^3.0.0",
-    "typescript": "^4"
+    "typescript": "^5.0.0"
   },
   "dependencies": {
     "oauth-1.0a": "^2"
