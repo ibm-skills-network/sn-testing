@@ -9,7 +9,7 @@
   "author": "Bradley Steinfeld",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^13",
+    "cypress": "^15",
     "cypress-iframe": "^1.0",
     "eslint": "^10.0",
     "eslint-config-prettier": "^8.8",
